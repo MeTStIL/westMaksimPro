@@ -58,7 +58,22 @@ class Dog extends Creature {
     constructor() {
         super('Пес-бандит', 3);
     }
+}
 
+class Trasher extends Dog {
+    constructor() {
+        super();
+        this.name = 'Трэщер томихелфигер';
+        this.maxPower = 5;
+    }
+
+    modifyTakenDamage(value, fromCard, gameContext, continuation) {
+        const modifiedValue = Math.max(value - 1, 0);
+
+        this.view.signalAbility(() => {
+            continuation(modifiedValue);
+        });
+    }
 }
 
 const sheriffStartDeck = [
@@ -67,7 +82,7 @@ const sheriffStartDeck = [
     new Duck(),
 ];
 const banditStartDeck = [
-    new Dog(),
+    new Trasher(),
 ];
 
 

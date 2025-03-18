@@ -82,33 +82,32 @@ class Gatling extends Creature {
         super();
         this.name = 'Гатлинг';
         this.maxPower = 6;
+        this.currentPower = this.maxPower;
     }
 
-    attack (gameContext, continuation) {
+    attack(gameContext, continuation) {
         const taskQueue = new TaskQueue();
-        const {currentPlayer, oppositePlayer, position, updateView} = gameContext;
+        const { oppositePlayer } = gameContext;
 
-        const allCards = gameContext.oppositePlayer.table;
+        for (let position = 0; position < oppositePlayer.table.length; position++) {
+            const oppositeCard = oppositePlayer.table[position];
 
-        for(const oppositeCard of allCards) {
-            taskQueue.push(onDone => this.view.showAttack(onDone));
             taskQueue.push(onDone => {
-                if (oppositeCard) {
-                    this.dealDamageToCreature(this.currentPower, oppositeCard, gameContext, onDone);
-                } else {
-                    this.dealDamageToPlayer(1, gameContext, onDone);
-                }
+                this.view.showAttack(() => {
+                    if (oppositeCard) {
+                        this.dealDamageToCreature(this.currentPower, oppositeCard, gameContext, onDone);
+                    } else {
+                        this.dealDamageToPlayer(1, gameContext, onDone);
+                    }
+                });
             });
-
-            taskQueue.continueWith(continuation);
         }
 
+        taskQueue.continueWith(continuation);
     }
 }
 
 const sheriffStartDeck = [
-    new Duck(),
-    new Duck(),
     new Duck(),
     new Gatling(),
 ];

@@ -5,7 +5,7 @@ import SpeedRate from './SpeedRate.js';
 
 // Отвечает является ли карта уткой.
 function isDuck(card) {
-    return card && card.quacks && card.swims;
+    return card instanceof Duck;
 }
 
 // Отвечает является ли карта собакой.
@@ -29,20 +29,41 @@ function getCreatureDescription(card) {
 
 
 
-// Основа для утки.
-function Duck() {
-    this.quacks = function () { console.log('quack') };
-    this.swims = function () { console.log('float: both;') };
+// // Основа для утки.
+// function Duck() {
+//     this.quacks = function () { console.log('quack') };
+//     this.swims = function () { console.log('float: both;') };
+// }
+
+class Duck extends Card {
+
+    constructor() {
+        super('Мирная Утка', 2);
+    }
 }
 
 
 // Основа для собаки.
-function Dog() {
+class Dog extends Card {
+
+    constructor() {
+        super('Пес-бандит', 3);
+    }
+
 }
 
+const sheriffStartDeck = [
+    new Duck(),
+    new Duck(),
+    new Duck(),
+];
+const banditStartDeck = [
+    new Dog(),
+];
 
-// Колода Шерифа, нижнего игрока.
-const seriffStartDeck = [
+
+/*// Колода Шерифа, нижнего игрока.
+const sheriffStartDeck = [
     new Card('Мирный житель', 2),
     new Card('Мирный житель', 2),
     new Card('Мирный житель', 2),
@@ -51,11 +72,11 @@ const seriffStartDeck = [
 // Колода Бандита, верхнего игрока.
 const banditStartDeck = [
     new Card('Бандит', 3),
-];
+];*/
 
 
 // Создание игры.
-const game = new Game(seriffStartDeck, banditStartDeck);
+const game = new Game(sheriffStartDeck, banditStartDeck);
 
 // Глобальный объект, позволяющий управлять скоростью всех анимаций.
 SpeedRate.set(1);

@@ -35,7 +35,16 @@ function getCreatureDescription(card) {
 //     this.swims = function () { console.log('float: both;') };
 // }
 
-class Duck extends Card {
+class Creature extends Card {
+
+    getDescriptions () {
+        return [getCreatureDescription(this), super.getDescriptions(this)]
+    }
+
+}
+
+
+class Duck extends Creature {
 
     constructor() {
         super('Мирная Утка', 2);
@@ -44,7 +53,7 @@ class Duck extends Card {
 
 
 // Основа для собаки.
-class Dog extends Card {
+class Dog extends Creature {
 
     constructor() {
         super('Пес-бандит', 3);
